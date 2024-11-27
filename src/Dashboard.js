@@ -10,10 +10,9 @@ const Dashboard = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#e0f7fa',
+        backgroundColor: '#B8B8F7',
       }}
     >
-      <Typography variant="h4">Welcome to the Dashboard!</Typography>
     </Box>
   );
 };

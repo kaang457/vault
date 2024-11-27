@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './LandingPage'; // Landing Page bileşenini import edin
-import Login from './Login'; // Login sayfası
-import Signup from './SignUp'; // Signup sayfası
+import LandingPage from './LandingPage'; 
+import Login from './Login'; 
+import Signup from './SignUp'; 
+import Dashboard from './Dashboard'; 
 
 const App = () => {
   return (
@@ -10,7 +11,7 @@ const App = () => {
       <Routes>
         {/* Varsayılan rota (Landing Page) */}
         <Route path="/" element={<LandingPage />} />
-        
+        <Route path="/dashboard" element={<Dashboard />} />
         {/* Login ve Signup sayfaları */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

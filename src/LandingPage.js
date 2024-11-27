@@ -12,7 +12,7 @@ import troy from './assets/troy.png';
 import slide1 from './assets/slide1.png';
 import slide2 from './assets/slide2.png';
 import slide3 from './assets/slide3.jpg';
-
+import LoginIcon from '@mui/icons-material/Login';
 const LandingPage = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
@@ -54,7 +54,7 @@ const LandingPage = () => {
           width: '60%',
           maxWidth: 900,
           height: '60px',
-          backgroundColor: darkMode ? '#333' : '#c8a2c8',
+          backgroundColor: darkMode ? '#333' : '#B8B8F7',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -93,7 +93,7 @@ const LandingPage = () => {
               fontSize: '1rem',
               color: darkMode ? '#f5f5f5' : '#000',
             }}
-           
+            
           >
             btn3
           </Button>
@@ -131,26 +131,32 @@ const LandingPage = () => {
           gap: 2,
         }}
       >
-        <Button
-          variant="text"
-          sx={{
-            fontWeight: 'bold',
-            fontSize: '1rem',
-            color: darkMode ? '#f5f5f5' : '#c8a2c8',
-          }}
-          onClick={() => navigate('/login')}
-        >
-          Login
-        </Button>
+       <Button
+            variant="contained"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              backgroundColor: darkMode ? '#555' : '#B8B8F7',
+              color: '#fff',
+              '&:hover': {
+                backgroundColor: darkMode ? '#666' : '#B8B8F7',
+              },
+            }}
+            onClick={() => navigate('/login')}
+            startIcon={<LoginIcon />} 
+          >
+            Login
+          </Button>
+
         <Button
           variant="contained"
           sx={{
             fontWeight: 'bold',
             fontSize: '1rem',
-            backgroundColor: darkMode ? '#555' : '#c8a2c8',
+            backgroundColor: darkMode ? '#555' : '#B8B8F7',
             color: '#fff',
             '&:hover': {
-              backgroundColor: darkMode ? '#666' : '#c8a2c8',
+              backgroundColor: darkMode ? '#666' : '#B8B8F7',
             },
           }}
           onClick={() => navigate('/signup')}
@@ -161,15 +167,26 @@ const LandingPage = () => {
 
   
       <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 40px',
-        }}
-      >
-        <Box sx={{ flex: 1, maxWidth: '50%' }}>
+  sx={{
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '0 40px',
+  }}
+>
+  {/* Why Vault Bölümü */}
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: '50%',
+            padding: '20px',
+            border: `2px solid ${darkMode ? '#f5f5f5' : '#333'}`,
+            borderRadius: '12px',
+            backgroundColor: darkMode ? '#222' : '#fff',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+          }}
+        >
           <Typography
             variant="h3"
             sx={{
@@ -192,7 +209,7 @@ const LandingPage = () => {
           </Typography>
         </Box>
 
-        {/* Slide */}
+        {/* Slide Gösterimi */}
         <Box
           sx={{
             flex: 1,
@@ -217,6 +234,7 @@ const LandingPage = () => {
         </Box>
       </Box>
 
+
       {/* Footer */}
       <Box
         sx={{
@@ -225,7 +243,7 @@ const LandingPage = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: darkMode ? '#333' : '#c8a2c8',
+          backgroundColor: darkMode ? '#333' : '#B8B8F7',
         }}
       >
         <Box

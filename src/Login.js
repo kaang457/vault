@@ -75,12 +75,21 @@ const Login = () => {
         <Button
           fullWidth
           variant="contained"
-          color="primary"
-          sx={{ marginTop: 2, height: 50 }}
+          sx={{
+            marginTop: 2,
+            height: 50,
+            backgroundColor: '#B8B8F7',
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: '#A5A5E6', 
+            },
+          }}
           onClick={handleLogin}
+         
         >
           Login
         </Button>
+
         <Typography
           variant="body2"
           sx={{ marginTop: 2, textAlign: 'center' }}
