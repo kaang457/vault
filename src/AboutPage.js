@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Typography, IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { DarkMode, LightMode } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import logo from './assets/logo.png';
-import visa from './assets/visa.png';
-import mastercard from './assets/mastercard.png';
-import discover from './assets/discover.png';
-import paypal from './assets/paypal.png';
-import applePay from './assets/applepay.png';
-import troy from './assets/troy.png';
-import slide1 from './assets/slide1.png';
-import slide2 from './assets/slide2.png';
-import slide3 from './assets/slide3.jpg';
 import LoginIcon from '@mui/icons-material/Login';
-const LandingPage = () => {
+
+const AboutPage = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [slide1, slide2, slide3];
 
   const handleDarkModeToggle = () => {
     setDarkMode((prevMode) => !prevMode);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 5000); // Change every 5 seconds
-    return () => clearInterval(interval);
-  }, [slides.length]);
 
   return (
     <Box
@@ -64,20 +46,6 @@ const LandingPage = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button
-            variant="text"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '1rem',
-              color: darkMode ? '#f5f5f5' : '#FFFFFF',
-            }}
-            onClick={() => {
-              window.location.href = "/";
-            }}
-          >
-            HOME
-          </Button>
-
           <Button
             variant="text"
             sx={{
@@ -85,10 +53,17 @@ const LandingPage = () => {
               fontSize: '1rem',
               color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
-            onClick={() => {
-              window.location.href = "/AboutPage";
+            onClick={() => navigate('/')}
+          >
+            HOME
+          </Button>
+          <Button
+            variant="text"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
-          
           >
             ABOUT
           </Button>
@@ -100,8 +75,8 @@ const LandingPage = () => {
               color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
             onClick={() => {
-              window.location.href = "/ContactPage";
-            }}
+                window.location.href = "/ContactPage";
+              }}
           >
             CONTACT
           </Button>
@@ -127,9 +102,7 @@ const LandingPage = () => {
           height: 'auto',
           filter: darkMode ? 'invert(1)' : 'none',
         }}
-        onClick={() => {
-          window.location.href = "/";
-        }}
+        onClick={() => navigate('/')}
       />
 
       {/* Login and Signup Buttons */}
@@ -142,7 +115,7 @@ const LandingPage = () => {
           gap: 2,
         }}
       >
-       <Button
+        <Button
             variant="contained"
             sx={{
               fontWeight: 'bold',
@@ -161,8 +134,7 @@ const LandingPage = () => {
           >
             Login
           </Button>
-
-        <Button
+          <Button
           variant="contained"
           sx={{
             fontWeight: 'bold',
@@ -182,108 +154,43 @@ const LandingPage = () => {
         </Button>
       </Box>
 
-  
-      <Box
-  sx={{
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0 40px',
-  }}
->
-  {/* Why Vault Bölümü */}
-        <Box
-          sx={{
-            flex: 1,
-            maxWidth: '50%',
-            padding: '20px',
-            border: `2px solid ${darkMode ? '#f5f5f5' : '#333'}`,
-            borderRadius: '12px',
-            backgroundColor: darkMode ? '#222' : '#fff',
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-          }}
-        >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 'bold',
-              color: darkMode ? '#f5f5f5' : '#333',
-              marginBottom: 3,
-            }}
-          >
-            Why Vault?
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: darkMode ? '#aaa' : '#555',
-              marginBottom: 3,
-              fontSize: '1.2rem',
-            }}
-          >
-            Vault is your trusted partner for secure, efficient, and customer-focused banking solutions. Discover a better way to manage your finances with Vault.
-          </Typography>
-        </Box>
-
-        {/* Slide Gösterimi */}
-        <Box
-          sx={{
-            flex: 1,
-            maxWidth: '50%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            component="img"
-            src={slides[currentSlide]}
-            alt={`Slide ${currentSlide + 1}`}
-            sx={{
-              width: '90%',
-              height: 'auto',
-              borderRadius: '12px',
-              boxShadow: '0 12px 10px rgba(0, 0, 0, 0.3)',
-            }}
-          />
-        </Box>
-      </Box>
-
-
-      {/* Footer */}
+      {/* Content (Boş alan) */}
       <Box
         sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 'bold',
+            color: darkMode ? '#f5f5f5' : '#333',
+          }}
+        >
+          About Us Page
+        </Typography>
+      </Box>
+
+     {/* Footer */}
+     <Box
+        sx={{
           width: '100%',
-          padding: '31px 0',
+          padding: '50px 0',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: darkMode ? '#333' : '#B8B8F7',
         }}
       >
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(6, 1fr)',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 10,
-            width: '80%',
-            maxWidth: '1200px',
-          }}
-        >
-         <Box component="img" src={visa} alt="Visa" sx={{ width: '90px' }} />
-          <Box component="img" src={mastercard} alt="Mastercard" sx={{ width: '90px' }} />
-          <Box component="img" src={discover} alt="Discover" sx={{ width: '90px' }} />
-          <Box component="img" src={paypal} alt="PayPal" sx={{ width: '90px' }} />
-          <Box component="img" src={applePay} alt="Apple Pay" sx={{ width: '90px' }} />
-          <Box component="img" src={troy} alt="Troy" sx={{ width: '90px' }} />
-        </Box>
+        <Typography variant="body2" sx={{ color: darkMode ? '#f5f5f5' : '#fff' }}>
+          © 2024 Vault. All rights reserved.
+        </Typography>
       </Box>
     </Box>
   );
 };
 
-export default LandingPage;
+export default AboutPage;
