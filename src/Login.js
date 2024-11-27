@@ -25,17 +25,17 @@ const Login = () => {
         height: '100vh',
       }}
     >
-      {/* Sol Login Kutusu ve Logo */}
+      {/* Sol Login Kutusu ve Logo */} 
       <Box
         sx={{
-          width: '45%', 
+          width: '45%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           padding: 4,
-          backgroundColor: '#ffffff', 
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', 
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
         }}
       >
         {/* Logo */}
@@ -84,11 +84,10 @@ const Login = () => {
             backgroundColor: '#B8B8F7',
             color: '#fff',
             '&:hover': {
-              backgroundColor: '#A5A5E6', 
+              backgroundColor: '#A5A5E6',
             },
           }}
           onClick={handleLogin}
-         
         >
           Login
         </Button>
@@ -108,13 +107,117 @@ const Login = () => {
         </Typography>
       </Box>
 
+
+          {/* top bar denemesi*/}
+          <Box
+            sx={{
+                position: 'absolute',
+                top: 80,
+                left: '25%',
+                transform: 'translateX(-50%)',
+                width: '60%',
+                maxWidth: 275,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: '#B8B8F7',
+                padding: 2,
+                borderRadius: 5,
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            }}
+            >
+              <Box
+              sx ={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2
+              }}
+              >
+              <Button
+                variant='text'
+                sx ={{
+                  fontWeight: 'bold',
+                  fontSize: '1rem',
+                  color: '#fff',
+                }}
+                onClick={() => {
+                  window.location.href = "/";
+                }}
+              >
+                HOME
+              </Button>
+              
+              <Button
+              variant ="text"
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                color: '#fff',
+              }}
+              onClick={() => {
+                window.location.href = "/AboutPage";
+              }}
+              >
+                ABOUT
+              </Button>
+             <Button
+             variant='text'
+             sx ={{
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              color: '#fff',
+             }}
+             onClick={() => {
+              window.location.href = "/ContactPage";
+             }}
+              
+             >
+              CONTACT
+             </Button>
+              </Box>
+            </Box>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {/* Sağ Resim Kutusu */}
       <Box
         sx={{
-          width: '55%', 
-          backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 1) 5%, rgba(255, 255, 255, 0) 15%), url(${rightImage})`, // Geçiş efekti ve resim
-          backgroundSize: 'cover', 
-          backgroundPosition: 'center', 
+          width: '55%',
+          backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 1) 5%, rgba(255, 255, 255, 0) 15%), url(${rightImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       ></Box>
     </Box>

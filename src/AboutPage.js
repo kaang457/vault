@@ -27,46 +27,32 @@ const AboutPage = () => {
       }}
     >
       {/* Top Bar */}
-      <Box
+            <Box
         sx={{
           position: 'absolute',
           top: 20,
-          left: '50%',
+          left: '70%',
           transform: 'translateX(-50%)',
           width: '60%',
-          maxWidth: 900,
+          maxWidth: 300,
           height: '60px',
           backgroundColor: darkMode ? '#333' : '#B8B8F7',
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'space-between', // Eşit aralık için bu özellik
           alignItems: 'center',
           padding: '0 20px',
           boxShadow: '0 2px 5px rgba(0,0,0,0.3)',
           borderRadius: '8px',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Button
-            variant="text"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '1rem',
-              color: darkMode ? '#f5f5f5' : '#FFFFFF',
-            }}
-            onClick={() => navigate('/')}
-          >
-            HOME
-          </Button>
-          <Button
-            variant="text"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '1rem',
-              color: darkMode ? '#f5f5f5' : '#FFFFFF',
-            }}
-          >
-            ABOUT
-          </Button>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between', // Butonları eşit mesafe ile yerleştirir
+            width: '100%', // Box genişliğini %100 yaparak içerikleri yayar
+          }}
+        >
           <Button
             variant="text"
             sx={{
@@ -75,8 +61,36 @@ const AboutPage = () => {
               color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
             onClick={() => {
-                window.location.href = "/ContactPage";
-              }}
+              window.location.href = "/";
+            }}
+          >
+            HOME
+          </Button>
+
+          <Button
+            variant="text"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              color: darkMode ? '#f5f5f5' : '#FFFFFF',
+            }}
+            onClick={() => {
+              window.location.href = "/AboutPage";
+            }}
+          >
+            ABOUT
+          </Button>
+
+          <Button
+            variant="text"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              color: darkMode ? '#f5f5f5' : '#FFFFFF',
+            }}
+            onClick={() => {
+              window.location.href = "/ContactPage";
+            }}
           >
             CONTACT
           </Button>
@@ -88,7 +102,6 @@ const AboutPage = () => {
           </IconButton>
         </Box>
       </Box>
-
       {/* Logo */}
       <Box
         component="img"
