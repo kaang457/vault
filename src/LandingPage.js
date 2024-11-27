@@ -69,39 +69,39 @@ const LandingPage = () => {
             sx={{
               fontWeight: 'bold',
               fontSize: '1rem',
-              color: darkMode ? '#f5f5f5' : '#000',
+              color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
          
           >
-            btn1
+            HOME
           </Button>
           <Button
             variant="text"
             sx={{
               fontWeight: 'bold',
               fontSize: '1rem',
-              color: darkMode ? '#f5f5f5' : '#000',
+              color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
           
           >
-            btn2
+            ABOUT
           </Button>
           <Button
             variant="text"
             sx={{
               fontWeight: 'bold',
               fontSize: '1rem',
-              color: darkMode ? '#f5f5f5' : '#000',
+              color: darkMode ? '#f5f5f5' : '#FFFFFF',
             }}
             
           >
-            btn3
+            CONTACT
           </Button>
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <IconButton onClick={handleDarkModeToggle} color="inherit">
-            {darkMode ? <LightMode sx={{ color: '#f5f5f5' }} /> : <DarkMode />}
+            {darkMode ? <LightMode sx={{ color: '#FFFFFF' }} /> : <DarkMode />}
           </IconButton>
         </Box>
       </Box>
@@ -118,6 +118,9 @@ const LandingPage = () => {
           width: 150,
           height: 'auto',
           filter: darkMode ? 'invert(1)' : 'none',
+        }}
+        onClick={() => {
+          window.location.href = "/";
         }}
       />
 
@@ -141,6 +144,9 @@ const LandingPage = () => {
               '&:hover': {
                 backgroundColor: darkMode ? '#666' : '#B8B8F7',
               },
+              width: '60%',
+              maxWidth: 900,
+              height: '60px',
             }}
             onClick={() => navigate('/login')}
             startIcon={<LoginIcon />} 
@@ -158,6 +164,9 @@ const LandingPage = () => {
             '&:hover': {
               backgroundColor: darkMode ? '#666' : '#B8B8F7',
             },
+            width: '60%',
+          maxWidth: 900,
+          height: '60px',
           }}
           onClick={() => navigate('/signup')}
         >

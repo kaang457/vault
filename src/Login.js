@@ -48,6 +48,9 @@ const Login = () => {
             height: 'auto',
             marginBottom: 1,
           }}
+          onClick={() => {
+            window.location.href = "/"; 
+          }}
         />
         <Typography variant="h4" sx={{ marginBottom: 3, textAlign: 'center' }}>
           Welcome to Vault
