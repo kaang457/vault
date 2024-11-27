@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
-import { Box, Button, Typography, Switch } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Typography, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { DarkMode, LightMode } from '@mui/icons-material';
 import logo from './assets/logo.png';
+import visa from './assets/visa.png';
+import mastercard from './assets/mastercard.png';
+import discover from './assets/discover.png';
+import paypal from './assets/paypal.png';
+import applePay from './assets/applepay.png';
+import troy from './assets/troy.png';
+import slide1 from './assets/slide1.png';
+import slide2 from './assets/slide2.png';
+import slide3 from './assets/slide3.jpg';
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [slide1, slide2, slide3];
 
   const handleDarkModeToggle = () => {
     setDarkMode((prevMode) => !prevMode);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+    }, 5000); // Change every 5 seconds
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   return (
     <Box
@@ -21,9 +41,10 @@ const LandingPage = () => {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        justifyContent: 'space-between',
       }}
     >
-      {/* Top Bar (Ortada) */}
+      {/* Top Bar */}
       <Box
         sx={{
           position: 'absolute',
@@ -42,14 +63,7 @@ const LandingPage = () => {
           borderRadius: '8px',
         }}
       >
-        {/* Top Bar Butonları */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Button
             variant="text"
             sx={{
@@ -57,7 +71,7 @@ const LandingPage = () => {
               fontSize: '1rem',
               color: darkMode ? '#f5f5f5' : '#000',
             }}
-            onClick={() => navigate('/features')}
+         
           >
             btn1
           </Button>
@@ -68,7 +82,7 @@ const LandingPage = () => {
               fontSize: '1rem',
               color: darkMode ? '#f5f5f5' : '#000',
             }}
-            onClick={() => navigate('/pricing')}
+          
           >
             btn2
           </Button>
@@ -79,29 +93,16 @@ const LandingPage = () => {
               fontSize: '1rem',
               color: darkMode ? '#f5f5f5' : '#000',
             }}
-            onClick={() => navigate('/contact')}
+           
           >
             btn3
           </Button>
         </Box>
 
-        {/* Dark Mode Switch */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            color: darkMode ? '#fff' : '#000',
-          }}
-        >
-          <Typography variant="body1" sx={{ fontSize: '0.9rem' }}>
-            Dark Mode
-          </Typography>
-          <Switch
-            checked={darkMode}
-            onChange={handleDarkModeToggle}
-            color="success"
-          />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <IconButton onClick={handleDarkModeToggle} color="inherit">
+            {darkMode ? <LightMode sx={{ color: '#f5f5f5' }} /> : <DarkMode />}
+          </IconButton>
         </Box>
       </Box>
 
@@ -120,8 +121,7 @@ const LandingPage = () => {
         }}
       />
 
-
-      {/* Login ve Signup Butonları */}
+      {/* Login and Signup Buttons */}
       <Box
         sx={{
           position: 'absolute',
@@ -155,11 +155,11 @@ const LandingPage = () => {
           }}
           onClick={() => navigate('/signup')}
         >
-          Signup
+          Sign Up
         </Button>
       </Box>
 
-      {/* Ana İçerik */}
+  
       <Box
         sx={{
           flex: 1,
@@ -169,13 +169,7 @@ const LandingPage = () => {
           padding: '0 40px',
         }}
       >
-        {/* Sol İçerik */}
-        <Box
-          sx={{
-            flex: 1,
-            maxWidth: '50%',
-          }}
-        >
+        <Box sx={{ flex: 1, maxWidth: '50%' }}>
           <Typography
             variant="h3"
             sx={{
@@ -184,7 +178,7 @@ const LandingPage = () => {
               marginBottom: 3,
             }}
           >
-            BÜYÜK YAZI
+            Why Vault?
           </Typography>
           <Typography
             variant="body1"
@@ -194,43 +188,63 @@ const LandingPage = () => {
               fontSize: '1.2rem',
             }}
           >
-            AÇIKLAMA
+            Vault is your trusted partner for secure, efficient, and customer-focused banking solutions. Discover a better way to manage your finances with Vault.
           </Typography>
-          <Box>
-            <Button
-              variant="contained"
-              sx={{
-                marginRight: 2,
-                fontWeight: 'bold',
-                padding: '10px 20px',
-                fontSize: '1rem',
-                backgroundColor: darkMode ? '#555' : '#c8a2c8',
-                color: '#fff',
-                '&:hover': {
-                  backgroundColor: darkMode ? '#666' : '#c8a2c8',
-                },
-              }}
-            >
-              Get Started
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                fontWeight: 'bold',
-                padding: '10px 20px',
-                fontSize: '1rem',
-                color: darkMode ? '#fff' : '#c8a2c8',
-                borderColor: darkMode ? '#666' : '#c8a2c8',
-                '&:hover': {
-                  backgroundColor: darkMode ? '#555' : '#c8a2c8',
-                  borderColor: darkMode ? '#777' : '#c8a2c8',
-                },
-              }}
-              onClick={() => navigate('/about')}
-            >
-              About Us
-            </Button>
-          </Box>
+        </Box>
+
+        {/* Slide */}
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: '50%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box
+            component="img"
+            src={slides[currentSlide]}
+            alt={`Slide ${currentSlide + 1}`}
+            sx={{
+              width: '90%',
+              height: 'auto',
+              borderRadius: '12px',
+              boxShadow: '0 12px 10px rgba(0, 0, 0, 0.3)',
+            }}
+          />
+        </Box>
+      </Box>
+
+      {/* Footer */}
+      <Box
+        sx={{
+          width: '100%',
+          padding: '30px 0',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: darkMode ? '#333' : '#c8a2c8',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10,
+            width: '80%',
+            maxWidth: '1200px',
+          }}
+        >
+          <Box component="img" src={visa} alt="Visa" sx={{ width: '100px' }} />
+          <Box component="img" src={mastercard} alt="Mastercard" sx={{ width: '100px' }} />
+          <Box component="img" src={discover} alt="Discover" sx={{ width: '100px' }} />
+          <Box component="img" src={paypal} alt="PayPal" sx={{ width: '100px' }} />
+          <Box component="img" src={applePay} alt="Apple Pay" sx={{ width: '100px' }} />
+          <Box component="img" src={troy} alt="Troy" sx={{ width: '100px' }} />
         </Box>
       </Box>
     </Box>
