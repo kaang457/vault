@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import logo from './assets/logo.png';
-import rightImage from './assets/deneme.png'; // Sağ tarafa ekleyeceğiniz resmi import edin
+import rightImage from './assets/deneme.png'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,14 +28,14 @@ const Login = () => {
       {/* Sol Login Kutusu ve Logo */}
       <Box
         sx={{
-          width: '45%', // Sol taraf ekranın %45'ini kaplar
+          width: '45%', 
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           padding: 4,
-          backgroundColor: '#ffffff', // Sol kutunun arka plan rengi
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', // Kutunun gölgesi
+          backgroundColor: '#ffffff', 
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', 
         }}
       >
         {/* Logo */}
@@ -46,7 +46,7 @@ const Login = () => {
           sx={{
             width: 350,
             height: 'auto',
-            marginBottom: 1, // Logonun altına boşluk bırakır
+            marginBottom: 1,
           }}
         />
         <Typography variant="h4" sx={{ marginBottom: 3, textAlign: 'center' }}>
@@ -99,10 +99,10 @@ const Login = () => {
       {/* Sağ Resim Kutusu */}
       <Box
         sx={{
-          width: '55%', // Sağ taraf ekranın %55'ini kaplar
+          width: '55%', 
           backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 1) 5%, rgba(255, 255, 255, 0) 15%), url(${rightImage})`, // Geçiş efekti ve resim
-          backgroundSize: 'cover', // Resmi tam ekran yap
-          backgroundPosition: 'center', // Resmi merkeze hizala
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center', 
         }}
       ></Box>
     </Box>

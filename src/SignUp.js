@@ -14,7 +14,7 @@ const SignUp = () => {
       return;
     }
     alert(`Signed up with Email: ${email}`);
-    navigate('/'); // Login sayfasına yönlendir
+    navigate('/'); 
   };
 
   return (
