@@ -209,40 +209,148 @@ const ContactPage = () => {
           </Box>
         </Box>
 
-        {/* Contact Form */}
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: "400px", width: "100%" }}>
-          <TextField label="Full Name" name="name" value={form.name} onChange={handleChange} fullWidth required />
-          <TextField label="Email" name="email" value={form.email} onChange={handleChange} fullWidth required />
-          <TextField label="Subject" name="subject" value={form.subject} onChange={handleChange} fullWidth required />
-          <TextField
-            label="Message"
-            name="message"
-            value={form.message}
-            onChange={handleChange}
-            multiline
-            rows={4}
-            fullWidth
-            required
-          />
-          <Button
-          fullWidth
-          variant="contained"
-          sx={{
-            marginTop: 2,
-            height: 50,
-            backgroundColor: '#B8B8F7',
-            color: '#fff',
-            '&:hover': {
-              backgroundColor: '#A5A5E6', 
-            },
-          }}
-          onClick={handleSubmit}
-         
-        >
-          Send Message
-        </Button>
-        </Box>
-      </Box>
+       {/* Contact Form */}
+<Box
+  sx={{
+    display: "flex",
+    flexDirection: "column",
+    gap: 2,
+    maxWidth: "400px",
+    width: "100%",
+  }}
+>
+  <TextField
+    label="Full Name"
+    name="name"
+    value={form.name}
+    onChange={handleChange}
+    fullWidth
+    required
+    sx={{
+      backgroundColor: darkMode ? "#444" : "#ffffff",
+      "& .MuiInputLabel-root": {
+        color: darkMode ? "#aaa" : "#000",
+      },
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: darkMode ? "#666" : "#ccc",
+        },
+        "&:hover fieldset": {
+          borderColor: darkMode ? "#888" : "#aaa",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: darkMode ? "#fff" : "#1976d2",
+        },
+      },
+      input: {
+        color: darkMode ? "#f5f5f5" : "#000",
+      },
+    }}
+  />
+  <TextField
+    label="Email"
+    name="email"
+    value={form.email}
+    onChange={handleChange}
+    fullWidth
+    required
+    sx={{
+      backgroundColor: darkMode ? "#444" : "#ffffff",
+      "& .MuiInputLabel-root": {
+        color: darkMode ? "#aaa" : "#000",
+      },
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: darkMode ? "#666" : "#ccc",
+        },
+        "&:hover fieldset": {
+          borderColor: darkMode ? "#888" : "#aaa",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: darkMode ? "#fff" : "#1976d2",
+        },
+      },
+      input: {
+        color: darkMode ? "#f5f5f5" : "#000",
+      },
+    }}
+  />
+  <TextField
+    label="Subject"
+    name="subject"
+    value={form.subject}
+    onChange={handleChange}
+    fullWidth
+    required
+    sx={{
+      backgroundColor: darkMode ? "#444" : "#ffffff",
+      "& .MuiInputLabel-root": {
+        color: darkMode ? "#aaa" : "#000",
+      },
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: darkMode ? "#666" : "#ccc",
+        },
+        "&:hover fieldset": {
+          borderColor: darkMode ? "#888" : "#aaa",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: darkMode ? "#fff" : "#1976d2",
+        },
+      },
+      input: {
+        color: darkMode ? "#f5f5f5" : "#000",
+      },
+    }}
+  />
+  <TextField
+    label="Message"
+    name="message"
+    value={form.message}
+    onChange={handleChange}
+    multiline
+    rows={4}
+    fullWidth
+    required
+    sx={{
+      backgroundColor: darkMode ? "#444" : "#ffffff",
+      "& .MuiInputLabel-root": {
+        color: darkMode ? "#aaa" : "#000",
+      },
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: darkMode ? "#666" : "#ccc",
+        },
+        "&:hover fieldset": {
+          borderColor: darkMode ? "#888" : "#aaa",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: darkMode ? "#fff" : "#1976d2",
+        },
+      },
+      textarea: {
+        color: darkMode ? "#f5f5f5" : "#000",
+      },
+    }}
+  />
+  <Button
+    fullWidth
+    variant="contained"
+    sx={{
+      marginTop: 2,
+      height: 50,
+      backgroundColor: darkMode ? "#666" : "#B8B8F7",
+      color: "#fff",
+      "&:hover": {
+        backgroundColor: darkMode ? "#777" : "#A5A5E6",
+      },
+    }}
+    onClick={handleSubmit}
+  >
+    Send Message
+  </Button>
+</Box>
+</Box>
 
      {/* Footer */}
      <Box
