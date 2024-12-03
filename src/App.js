@@ -7,7 +7,7 @@ import Dashboard from './Dashboard';
 import AboutPage from './AboutPage'; // Yeni About Page
 import ContactPage from './ContactPage'; // Yeni About Page
 import Accounts from './Accounts';
-
+import Transfers from './Transfers';
 
 const App = () => {
   return (
@@ -19,6 +19,8 @@ const App = () => {
         <Route path="/AboutPage" element={<AboutPage />} />
         <Route path="/ContactPage" element={<ContactPage />} />
         <Route path="/Accounts" element={<Accounts />} />
+        <Route path="/Transfers" element={<Transfers />} />
+
         {/* Login ve Signup sayfaları */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
