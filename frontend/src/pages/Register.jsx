@@ -18,7 +18,7 @@ const Register = () => {
     e.preventDefault()
 
     try {
-      await api.post('api/user/register/', { name, email, password })
+      await api.post('user/register/', { name, email, password })
       alert('Registration successful!')
       navigate('/login')
     } catch (error) {
