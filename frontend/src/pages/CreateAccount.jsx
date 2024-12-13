@@ -85,7 +85,8 @@ const CreateAccount = ({ darkMode }) => {
             { value: 'SAVINGS', label: 'Savings' },
             { value: 'CHECKING', label: 'Checking' },
             { value: 'BUSINESS', label: 'Business' },
-            { value: 'JOINT', label: 'Joint' }
+            { value: 'JOINT', label: 'Joint' },
+            { value: 'INVESTMENT', label: 'Investment' }
           ].map(option => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}

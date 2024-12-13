@@ -28,6 +28,7 @@ class Account(models.Model):
         ("CHECKING", "Checking"),
         ("BUSINESS", "Business"),
         ("JOINT", "Joint"),
+        ("INVESTMENT", "Investment"),
     ]
 
     CURRENCIES = [
@@ -137,7 +138,7 @@ class AccountPreference(models.Model):
 class Purchase(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     stock_symbol = models.CharField(max_length=10, default="GOOGL")
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=0)
     purchase_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

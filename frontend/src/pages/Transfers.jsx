@@ -16,9 +16,13 @@ import {
 } from '@mui/material'
 import GlobalContainer from '../components/GlobalContainer'
 import api from '../api'
+import colors from '../styles/colors'
 
 const TransfersPage = () => {
   const theme = useTheme()
+  const darkMode = localStorage.getItem('darkMode') === 'true'
+  const currentColors = darkMode ? colors.dark : colors.light
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     amount: '',
@@ -121,262 +125,291 @@ const TransfersPage = () => {
 
   return (
     <GlobalContainer>
-      <Typography
-        variant='h4'
-        sx={{
-          color: theme.palette.text.primary,
-          fontWeight: 'bold',
-          marginBottom: '16px',
-          alignContent: 'center'
-        }}
-      >
-        Transfer Operations
-      </Typography>
-
-      <Box
-        sx={{
-          backgroundColor:
-            theme.palette.mode === 'dark' ? '#2E2E2E' : '#FFFFFF',
-          padding: '24px',
-          borderRadius: '8px',
-          boxShadow:
-            theme.palette.mode === 'dark'
-              ? '0px 4px 8px rgba(255,255,255,0.1)'
-              : '0px 4px 8px rgba(0,0,0,0.1)',
-          marginBottom: '24px'
-        }}
-      >
+      <Box>
         <Typography
-          variant='h6'
-          sx={{ marginBottom: '16px', color: theme.palette.text.primary }}
+          variant='h4'
+          sx={{
+            color: currentColors.textPrimary,
+            fontWeight: 'bold',
+            marginBottom: '16px',
+            alignContent: 'center'
+          }}
         >
-          Fill Transfer Details
+          Transfer Operations
         </Typography>
 
-        {/* Account Selection */}
-        <FormControl fullWidth sx={{ marginBottom: '16px' }}>
-          <InputLabel id='account-select-label'>Select Account</InputLabel>
-          <Select
-            labelId='account-select-label'
-            id='account-select'
-            name='account'
-            value={formData.account}
-            onChange={handleInputChange}
-            label='Select Account'
-            sx={{
-              color: theme.palette.text.primary,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: theme.palette.divider
-                },
-                '&:hover fieldset': {
-                  borderColor: theme.palette.primary.main
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: theme.palette.primary.main
-                }
-              }
-            }}
+        <Box
+          sx={{
+            backgroundColor: currentColors.cardBackground,
+            padding: '24px',
+            borderRadius: '8px',
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+            marginBottom: '24px'
+          }}
+        >
+          <Typography
+            variant='h6'
+            sx={{ marginBottom: '16px', color: currentColors.textPrimary }}
           >
-            {accounts.map(account => (
-              <MenuItem key={account.id} value={account.id}>
-                {`Account ID: ${account.id} (Balance: ${account.balance.toFixed(
-                  2
-                )} $)`}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            Fill Transfer Details
+          </Typography>
 
-        {/* Receiver Selection Type */}
-        <FormControl component='fieldset' sx={{ marginBottom: '16px' }}>
-          <RadioGroup
-            row
-            name='receiverSelectionType'
-            value={receiverSelectionType}
-            onChange={handleReceiverSelectionTypeChange}
-          >
-            <FormControlLabel
-              value='new'
-              control={<Radio />}
-              label='New Receiver'
-            />
-            <FormControlLabel
-              value='saved'
-              control={<Radio />}
-              label='Saved Receiver'
-            />
-          </RadioGroup>
-        </FormControl>
-
-        {/* Receiver Field */}
-        {receiverSelectionType === 'new' ? (
-          <TextField
-            label='Receiver'
-            name='receiver'
-            variant='outlined'
-            fullWidth
-            sx={{
-              marginBottom: '16px',
-              input: { color: theme.palette.text.primary },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: theme.palette.divider
-                },
-                '&:hover fieldset': {
-                  borderColor: theme.palette.primary.main
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: theme.palette.primary.main
-                }
-              }
-            }}
-            value={formData.receiver}
-            onChange={handleInputChange}
-          />
-        ) : (
           <FormControl fullWidth sx={{ marginBottom: '16px' }}>
-            <InputLabel id='preferred-receiver-select-label'>
-              Select Saved Receiver
+            <InputLabel
+              id='account-select-label'
+              sx={{
+                color: darkMode ? 'white' : 'black' // Label color for readability
+              }}
+            >
+              Select Account
             </InputLabel>
             <Select
-              labelId='preferred-receiver-select-label'
-              id='preferred-receiver-select'
-              name='receiver'
-              value={formData.receiver}
+              labelId='account-select-label'
+              id='account-select'
+              name='account'
+              value={formData.account}
               onChange={handleInputChange}
-              label='Select Saved Receiver'
+              label='Select Account'
               sx={{
-                color: theme.palette.text.primary,
+                '& .MuiSelect-select': {
+                  color: darkMode ? 'white' : 'black', // Text color for readability
+                  backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Background color for contrast
+                },
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
-                    borderColor: theme.palette.divider
+                    borderColor: currentColors.hoverColor // Default border color
                   },
                   '&:hover fieldset': {
-                    borderColor: theme.palette.primary.main
+                    borderColor: currentColors.primary // Border color on hover
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: theme.palette.primary.main
+                    borderColor: currentColors.primary // Border color when focused
                   }
+                },
+                '& .MuiInputLabel-root': {
+                  color: darkMode ? 'white' : 'black' // Adjust label color for better visibility
                 }
               }}
             >
-              {preferredReceivers.map(receiver => (
-                <MenuItem key={receiver.id} value={receiver.receiver}>
-                  {`Receiver ID: ${receiver.receiver} (Alias: ${receiver.alias})`}
+              {accounts.map(account => (
+                <MenuItem key={account.id} value={account.id}>
+                  {`Account ID: ${
+                    account.id
+                  } (Balance: ${account.balance.toFixed(2)} $)`}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-        )}
 
-        {/* Alias Field */}
-        {formData.save_account && (
+          <FormControl component='fieldset' sx={{ marginBottom: '16px' }}>
+            <RadioGroup
+              row
+              name='receiverSelectionType'
+              value={receiverSelectionType}
+              onChange={handleReceiverSelectionTypeChange}
+            >
+              <FormControlLabel
+                value='new'
+                control={<Radio />}
+                label='New Receiver'
+              />
+              <FormControlLabel
+                value='saved'
+                control={<Radio />}
+                label='Saved Receiver'
+              />
+            </RadioGroup>
+          </FormControl>
+
+          {receiverSelectionType === 'new' ? (
+            <TextField
+              label='Receiver'
+              name='receiver'
+              variant='outlined'
+              fullWidth
+              sx={{
+                marginBottom: '16px',
+                '& .MuiInputBase-input': {
+                  color: darkMode ? 'white' : 'black', // Adjust input text color for visibility
+                  backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Set background color for better readability
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: currentColors.hoverColor // Default border color
+                  },
+                  '&:hover fieldset': {
+                    borderColor: currentColors.primary // Hover border color
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: currentColors.primary // Focused border color
+                  }
+                },
+                '& .MuiInputLabel-root': {
+                  color: darkMode ? 'white' : 'black' // Adjust label color for visibility
+                }
+              }}
+              value={formData.receiver}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <FormControl fullWidth sx={{ marginBottom: '16px' }}>
+              <InputLabel id='preferred-receiver-select-label'>
+                Select Saved Receiver
+              </InputLabel>
+              <Select
+                labelId='preferred-receiver-select-label'
+                id='preferred-receiver-select'
+                name='receiver'
+                value={formData.receiver}
+                onChange={handleInputChange}
+                label='Select Saved Receiver'
+                sx={{
+                  color: currentColors.textPrimary,
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: currentColors.hoverColor
+                    },
+                    '&:hover fieldset': {
+                      borderColor: currentColors.primary
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: currentColors.primary
+                    }
+                  }
+                }}
+              >
+                {preferredReceivers.map(receiver => (
+                  <MenuItem key={receiver.id} value={receiver.receiver}>
+                    {`Receiver ID: ${receiver.receiver} (Alias: ${receiver.alias})`}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+
+          {formData.save_account && (
+            <TextField
+              label='Alias (optional)'
+              name='alias'
+              variant='outlined'
+              fullWidth
+              sx={{
+                marginBottom: '16px',
+                '& .MuiInputBase-input': {
+                  color: darkMode ? 'white' : 'black', // Adjust input text color
+                  backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Adjust background color for better readability
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: currentColors.hoverColor
+                  },
+                  '&:hover fieldset': {
+                    borderColor: currentColors.primary
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: currentColors.primary
+                  }
+                },
+                '& .MuiInputLabel-root': {
+                  color: darkMode ? 'white' : 'black' // Adjust label color
+                }
+              }}
+              value={formData.alias}
+              onChange={handleInputChange}
+            />
+          )}
+
           <TextField
-            label='Alias (optional)'
-            name='alias'
+            label='Amount ($)'
+            name='amount'
+            type='number'
             variant='outlined'
             fullWidth
             sx={{
               marginBottom: '16px',
-              input: { color: theme.palette.text.primary },
+              '& .MuiInputBase-input': {
+                color: darkMode ? 'white' : 'black', // Adjust input text color
+                backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Adjust background color for better readability
+              },
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: theme.palette.divider
+                  borderColor: currentColors.hoverColor
                 },
                 '&:hover fieldset': {
-                  borderColor: theme.palette.primary.main
+                  borderColor: currentColors.primary
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: theme.palette.primary.main
+                  borderColor: currentColors.primary
                 }
+              },
+              '& .MuiInputLabel-root': {
+                color: darkMode ? 'white' : 'black' // Adjust label color
               }
             }}
-            value={formData.alias}
+            value={formData.amount}
             onChange={handleInputChange}
           />
-        )}
-
-        {/* Other Fields */}
-        <TextField
-          label='Amount ($)'
-          name='amount'
-          type='number'
-          variant='outlined'
-          fullWidth
-          sx={{
-            marginBottom: '16px',
-            input: { color: theme.palette.text.primary },
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: theme.palette.divider
+          <TextField
+            label='Details'
+            name='details'
+            variant='outlined'
+            fullWidth
+            multiline
+            rows={3}
+            sx={{
+              marginBottom: '16px',
+              '& .MuiInputBase-input': {
+                color: darkMode ? 'white' : 'black', // Adjust input text color
+                backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Adjust background color for better readability
               },
-              '&:hover fieldset': {
-                borderColor: theme.palette.primary.main
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: currentColors.hoverColor
+                },
+                '&:hover fieldset': {
+                  borderColor: currentColors.primary
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: currentColors.primary
+                }
               },
-              '&.Mui-focused fieldset': {
-                borderColor: theme.palette.primary.main
+              '& .MuiInputLabel-root': {
+                color: darkMode ? 'white' : 'black' // Adjust label color
               }
+            }}
+            value={formData.details}
+            onChange={handleInputChange}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={formData.save_account}
+                onChange={handleCheckboxChange}
+                name='save_account'
+                sx={{
+                  color: currentColors.primary,
+                  '&.Mui-checked': { color: currentColors.primary }
+                }}
+              />
             }
-          }}
-          value={formData.amount}
-          onChange={handleInputChange}
-        />
+            label='Save this account as a preferred account'
+          />
 
-        <TextField
-          label='Details'
-          name='details'
-          variant='outlined'
-          fullWidth
-          multiline
-          rows={3}
-          sx={{
-            marginBottom: '16px',
-            input: { color: theme.palette.text.primary },
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: theme.palette.divider
-              },
-              '&:hover fieldset': {
-                borderColor: theme.palette.primary.main
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: theme.palette.primary.main
-              }
-            }
-          }}
-          value={formData.details}
-          onChange={handleInputChange}
-        />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={formData.save_account}
-              onChange={handleCheckboxChange}
-              name='save_account'
-              sx={{
-                color: theme.palette.primary.main,
-                '&.Mui-checked': { color: theme.palette.primary.main }
-              }}
-            />
-          }
-          label='Save this account as a preferred account'
-        />
-
-        <Button
-          variant='contained'
-          disabled={isSubmitting}
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-            '&:hover': { backgroundColor: theme.palette.primary.dark }
-          }}
-          fullWidth
-          onClick={handleSubmit}
-        >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
-        </Button>
+          <Button
+            variant='contained'
+            disabled={isSubmitting}
+            sx={{
+              backgroundColor: currentColors.primary,
+              color: currentColors.textPrimary,
+              '&:hover': { backgroundColor: currentColors.hoverColor }
+            }}
+            fullWidth
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </Button>
+        </Box>
       </Box>
     </GlobalContainer>
   )

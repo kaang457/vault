@@ -12,11 +12,16 @@ import GlobalContainer from '../components/GlobalContainer'
 import api from '../api'
 import colors from '../styles/colors'
 
-const Accounts = ({ darkMode }) => {
+const Accounts = () => {
   const [accounts, setAccounts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
+    // Parse dark mode from local storage
+    const storedDarkMode = localStorage.getItem('darkMode')
+    setDarkMode(storedDarkMode === 'true')
+
     fetchAccounts()
   }, [])
 
@@ -56,14 +61,13 @@ const Accounts = ({ darkMode }) => {
           variant='h4'
           sx={{
             fontWeight: 'bold',
-            color: themeColors.textPrimary
+            color: darkMode ? 'white' : 'black'
           }}
         >
           Accounts
         </Typography>
         <Button
           variant='contained'
-          color='primary'
           onClick={handleCreateAccount}
           sx={{
             backgroundColor: themeColors.primary,
@@ -94,15 +98,12 @@ const Accounts = ({ darkMode }) => {
           sx={{
             display: 'grid',
             gridTemplateColumns: {
-              xs: '1fr', // Single column for very small screens
-              sm: 'repeat(auto-fill, minmax(280px, 1fr))' // Responsive grid
+              xs: '1fr',
+              sm: 'repeat(auto-fill, minmax(320px, 1fr))'
             },
-            gap: 2, // Adjust the gap between cards
-            justifyContent: 'center',
-            padding: '16px',
-            backgroundColor: darkMode
-              ? themeColors.backgroundDark
-              : themeColors.backgroundLight
+            gap: 3,
+            padding: '24px',
+            backgroundColor: themeColors.background
           }}
         >
           {accounts.map(account => (
@@ -110,28 +111,33 @@ const Accounts = ({ darkMode }) => {
               key={account.id}
               sx={{
                 boxShadow: darkMode
-                  ? '0px 4px 10px rgba(255, 255, 255, 0.2)'
-                  : '0px 4px 10px rgba(0, 0, 0, 0.1)', // Subtle shadow for light theme
-                borderRadius: '12px',
+                  ? '0px 4px 12px rgba(255, 255, 255, 0.2)'
+                  : '0px 4px 12px rgba(0, 0, 0, 0.15)',
+                borderRadius: '16px',
                 padding: '16px',
-                backgroundColor: darkMode
-                  ? themeColors.cardBackgroundDark
-                  : themeColors.cardBackgroundLight,
+                backgroundColor: themeColors.cardBackground,
                 color: themeColors.textPrimary,
-                textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                border: darkMode ? '1px solid #444' : '1px solid #ccc' // Border for better contrast
+                border: darkMode ? '1px solid #555' : '1px solid #ddd',
+                transition: 'transform 0.2s ease',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  boxShadow: darkMode
+                    ? '0px 6px 16px rgba(255, 255, 255, 0.3)'
+                    : '0px 6px 16px rgba(0, 0, 0, 0.2)'
+                }
               }}
             >
               <CardContent>
                 <Typography
                   variant='h6'
                   sx={{
-                    marginBottom: '8px',
+                    marginBottom: '12px',
                     fontWeight: 'bold',
-                    color: themeColors.textPrimary
+                    color: themeColors.textPrimary,
+                    textTransform: 'uppercase'
                   }}
                 >
                   {account.account_type} Account
@@ -140,7 +146,7 @@ const Accounts = ({ darkMode }) => {
                   variant='body2'
                   sx={{
                     color: themeColors.textSecondary,
-                    marginBottom: '8px'
+                    marginBottom: '12px'
                   }}
                 >
                   Account ID: {account.id}
@@ -148,9 +154,9 @@ const Accounts = ({ darkMode }) => {
                 <Typography
                   variant='h5'
                   sx={{
-                    marginBottom: '8px',
+                    marginBottom: '12px',
                     fontWeight: 'bold',
-                    color: darkMode ? '#90CAF9' : themeColors.primary
+                    color: themeColors.primary
                   }}
                 >
                   {account.currency} {parseFloat(account.balance).toFixed(2)}
@@ -159,7 +165,7 @@ const Accounts = ({ darkMode }) => {
                   variant='body2'
                   sx={{
                     color: themeColors.textSecondary,
-                    marginBottom: '4px'
+                    marginBottom: '8px'
                   }}
                 >
                   Created: {new Date(account.created_at).toLocaleDateString()}
@@ -171,15 +177,15 @@ const Accounts = ({ darkMode }) => {
                   Updated: {new Date(account.updated_at).toLocaleDateString()}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'center' }}>
+              <CardActions sx={{ justifyContent: 'center', marginTop: 'auto' }}>
                 <Button
-                  size='small'
+                  size='medium'
                   variant='contained'
                   sx={{
                     backgroundColor: themeColors.primary,
-                    color: darkMode ? '#000' : themeColors.cardBackground,
+                    color: themeColors.cardBackground,
                     borderRadius: '8px',
-                    padding: '6px 16px',
+                    padding: '8px 24px',
                     '&:hover': {
                       backgroundColor: darkMode
                         ? '#5C6BC0'

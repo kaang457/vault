@@ -173,7 +173,10 @@ class BuyStockView(APIView):
         user = request.user
         symbol = request.data.get("symbol")
         quantity = request.data.get("quantity")
+        account_id = request.data.get("account_id")
+        price = request.data.get("price")
 
+        total_price = quantity * price
         if not symbol or not quantity:
             return Response(
                 {"error": "Symbol and quantity are required."},
@@ -187,7 +190,18 @@ class BuyStockView(APIView):
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        Purchase.objects.create(user=user, stock_symbol=symbol, quantity=quantity)
+        account = Account.objects.get(id=account_id)
+        account.balance -= total_price
+        account.save()
+        purchase, created = Purchase.objects.get_or_create(
+            user=user, stock_symbol=symbol
+        )
+        if created:
+            purchase.quantity = quantity
+        else:
+            purchase.quantity += quantity
+
+        purchase.save()
         return Response(
             {"message": f"Successfully purchased {quantity} of {symbol}."},
             status=status.HTTP_201_CREATED,
@@ -201,7 +215,9 @@ class SellStockView(APIView):
         user = request.user
         symbol = request.data.get("symbol")
         quantity = request.data.get("quantity")
-
+        account_id = request.data.get("account_id")
+        price = request.data.get("price")
+        total_price = quantity * price
         if not symbol or not quantity:
             return Response(
                 {"error": "Symbol and quantity are required."},
@@ -214,8 +230,10 @@ class SellStockView(APIView):
                 raise ValueError("Quantity must be positive.")
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-        purchase = Purchase.objects.filter(user=user, stock_symbol=symbol).first()
+        account = Account.objects.get(id=account_id)
+        account.balance += total_price
+        account.save()
+        purchase = Purchase.objects.get(user=user, stock_symbol=symbol)
 
         if not purchase or purchase.quantity < quantity:
             return Response(

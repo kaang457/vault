@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import colors from '../styles/colors'
 import {
   Box,
@@ -24,6 +24,7 @@ import {
   Notifications,
   TrendingUp
 } from '@mui/icons-material'
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications'
 import api from '../api'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
@@ -51,6 +52,10 @@ const Sidebar = ({
           width: 240,
           backgroundColor: themeColors.drawerBackground,
           color: themeColors.textPrimary
+        },
+        '& .MuiDrawer-root .MuiSwipeableDrawer-root .privateSwipeArea': {
+          backgroundColor: 'black',
+          width: 0
         }
       }}
     >
@@ -151,13 +156,21 @@ const Navbar = ({ darkMode, toggleDrawer }) => {
       color='transparent'
       elevation={0}
       sx={{
-        backgroundColor: darkMode ? '#121212' : '#ffffff',
-        color: darkMode ? '#f5f5f5' : '#000'
+        backgroundColor: darkMode
+          ? colors.dark.background
+          : colors.light.background,
+        color: darkMode ? colors.dark.textPrimary : colors.light.textPrimary
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <IconButton onClick={toggleDrawer(true)}>
-          <MenuIcon sx={{ color: darkMode ? '#f5f5f5' : '#000' }} />
+          <MenuIcon
+            sx={{
+              color: darkMode
+                ? colors.dark.textPrimary
+                : colors.light.textPrimary
+            }}
+          />
         </IconButton>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <NotificationsButton />
@@ -179,8 +192,14 @@ const Navbar = ({ darkMode, toggleDrawer }) => {
 }
 
 const GlobalContainer = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem('darkMode')) || false
+  )
   const [drawerOpen, setDrawerOpen] = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode))
+  }, [darkMode])
 
   const handleDarkModeToggle = () => {
     setDarkMode(prevMode => !prevMode)
@@ -197,6 +216,7 @@ const GlobalContainer = ({ children }) => {
       sx={{
         display: 'flex',
         minHeight: '100vh',
+        paddingLeft: 0,
         backgroundColor: themeColors.background,
         color: themeColors.textPrimary,
         flexDirection: 'column'

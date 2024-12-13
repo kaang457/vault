@@ -14,14 +14,14 @@ const colors = {
   dark: {
     primary: '#3B82F6',
     secondary: '#F59E0B',
-    background: '#121212',
-    textPrimary: 'white',
-    textSecondary: '#BDBDBD',
-    cardBackground: '#1E1E1E',
-    footerBackground: '#1E1E1E',
-    drawerBackground: '#1E1E1E',
-    drawerHover: '#333',
-    hoverColor: 'white'
+    background: '#383838',
+    textPrimary: '#EAEAEA',
+    textSecondary: '#A5A5A5',
+    cardBackground: '#282828',
+    footerBackground: '#202020',
+    drawerBackground: '#202020',
+    drawerHover: '#333333',
+    hoverColor: '#3B82F6'
   }
 }
 

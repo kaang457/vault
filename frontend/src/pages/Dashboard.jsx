@@ -3,27 +3,37 @@ import { Box, Typography, Card, CardContent, Tabs, Tab } from '@mui/material'
 import Chart from 'react-apexcharts'
 import { PieChart } from '@mui/x-charts/PieChart'
 import GlobalContainer from '../components/GlobalContainer'
+import colors from '../styles/colors'
 import api from '../api'
 
 const Dashboard = () => {
+  const [darkMode, setDarkMode] = useState(false)
   const [balance, setBalance] = useState(0)
   const [savings, setSavings] = useState(0)
   const [loading, setLoading] = useState(true)
   const [accounts, setAccounts] = useState([])
   const [monthlyExpenses, setMonthlyExpenses] = useState(15000)
   const [pieChartData, setPieChartData] = useState([])
-  const [tabValue, setTabValue] = useState(0) // For tab control
-  const [transactions, setTransactions] = useState([]) // To store transactions
+  const [tabValue, setTabValue] = useState(0)
+  const [transactions, setTransactions] = useState([])
+
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem('darkMode')
+    setDarkMode(storedDarkMode === 'true')
+  }, [])
+
+  const themeColors = darkMode ? colors.dark : colors.light
 
   useEffect(() => {
     getAccounts()
-    getTransactions() // Fetch transactions
+    getTransactions()
   }, [])
 
   const pieParams = {
     height: 200,
     margin: { right: 5 },
-    slotProps: { legend: { hidden: true } }
+    slotProps: { legend: { hidden: true } },
+    colors: [themeColors.primary, themeColors.secondary]
   }
 
   const handleTabChange = (event, newValue) => {
@@ -97,8 +107,22 @@ const Dashboard = () => {
     <GlobalContainer>
       {/* Tabs */}
       <Tabs value={tabValue} onChange={handleTabChange} centered>
-        <Tab label='Overview' />
-        <Tab label='Transactions' />
+        <Tab
+          label='Overview'
+          sx={{
+            color: themeColors.textPrimary,
+            fontFamily: 'RobotoCondensed-Regular',
+            fontSize: 20
+          }}
+        />
+        <Tab
+          label='Transactions'
+          sx={{
+            color: themeColors.textPrimary,
+            fontFamily: 'RobotoCondensed-Regular',
+            fontSize: 20
+          }}
+        />
       </Tabs>
 
       {tabValue === 0 && (
@@ -118,26 +142,26 @@ const Dashboard = () => {
                 title: 'Balance',
                 value: loading ? 'Loading...' : `$${balance}`,
                 change: '+2.5%',
-                changeColor: 'green',
+                changeColor: themeColors.primary,
                 description: 'Compared to $21,430 last year'
               },
               {
                 title: 'Savings',
                 value: loading ? 'Loading...' : `$${savings}`,
                 change: '-1.5%',
-                changeColor: 'red'
+                changeColor: themeColors.secondary
               },
               {
                 title: 'Income',
                 value: '$20,199',
                 change: '+0.5%',
-                changeColor: 'green'
+                changeColor: themeColors.primary
               },
               {
                 title: 'Monthly Expenses',
                 value: `$${monthlyExpenses}`,
                 change: '+1.2%',
-                changeColor: 'red'
+                changeColor: themeColors.secondary
               }
             ].map((item, index) => (
               <Card
@@ -147,29 +171,51 @@ const Dashboard = () => {
                   padding: '2px',
                   height: '70px',
                   textAlign: 'center',
-                  boxShadow: '0px 2px 4px rgba(0,0,0,0.15)'
+                  boxShadow: '0px 2px 4px rgba(0,0,0,0.15)',
+                  backgroundColor: themeColors.cardBackground,
+                  color: themeColors.textPrimary,
+                  fontFamily: 'Archivo_Condensed-Medium',
+                  fontSize: 20
                 }}
               >
                 <CardContent>
-                  <Typography variant='subtitle2' sx={{ marginBottom: '2px' }}>
-                    {' '}
+                  <Typography
+                    variant='subtitle2'
+                    sx={{
+                      marginBottom: '0px',
+                      fontFamily: 'Archivo_Condensed-Medium',
+                      fontSize: 17
+                    }}
+                  >
                     {item.title}
                   </Typography>
                   <Typography
                     variant='h6'
-                    sx={{ marginBottom: '2px', fontWeight: 'bold' }}
+                    sx={{
+                      marginBottom: '2px',
+                      fontWeight: 'bold',
+                      fontFamily: 'Archivo_Condensed-Bold'
+                    }}
                   >
                     {item.value}
                   </Typography>
                   <Typography
                     variant='caption'
-                    sx={{ marginBottom: '2px', color: item.changeColor }}
+                    sx={{
+                      marginBottom: '2px',
+                      color: item.changeColor,
+                      fontFamily: 'Archivo_Condensed-Regular'
+                    }}
                   >
                     {item.change}
                   </Typography>
-                  <Typography variant='caption' sx={{ color: 'gray' }}>
-                    {' '}
-                    {/* Smaller font size for the description */}
+                  <Typography
+                    variant='caption'
+                    sx={{
+                      color: themeColors.textSecondary,
+                      fontFamily: 'Archivo_Condensed-Regular'
+                    }}
+                  >
                     {item.description}
                   </Typography>
                 </CardContent>
@@ -185,7 +231,8 @@ const Dashboard = () => {
               flexDirection: 'column',
               gap: 4,
               borderRadius: '8px',
-              boxShadow: '0px 4px 10px rgba(0,0,0,0.2)'
+              boxShadow: '0px 4px 10px rgba(0,0,0,0.2)',
+              backgroundColor: themeColors.cardBackground
             }}
           >
             <Box
@@ -197,7 +244,14 @@ const Dashboard = () => {
             >
               {/* Line Chart */}
               <Box sx={{ flex: 2 }}>
-                <Typography variant='h6' sx={{ marginBottom: '16px' }}>
+                <Typography
+                  variant='h6'
+                  sx={{
+                    marginBottom: '16px',
+                    color: themeColors.textPrimary,
+                    fontFamily: 'RobotoCondensed-Bold'
+                  }}
+                >
                   6-Month Comparison: Arrival vs Spending
                 </Typography>
                 <Chart
@@ -222,7 +276,7 @@ const Dashboard = () => {
                         'Dec'
                       ]
                     },
-                    colors: ['#3B82F6', '#F59E0B'],
+                    colors: [themeColors.primary, themeColors.secondary],
                     tooltip: {
                       y: {
                         formatter: value => `$${value}`
@@ -259,7 +313,14 @@ const Dashboard = () => {
 
               {/* Pie Chart */}
               <Box sx={{ flex: 1 }}>
-                <Typography variant='h6' sx={{ marginBottom: '16px' }}>
+                <Typography
+                  variant='h6'
+                  sx={{
+                    marginBottom: '16px',
+                    color: themeColors.textPrimary,
+                    fontFamily: 'RobotoCondensed-Bold'
+                  }}
+                >
                   Efficiency
                 </Typography>
 
@@ -296,14 +357,37 @@ const Dashboard = () => {
 
       {tabValue === 1 && (
         <Box sx={{ padding: '16px' }}>
-          <Typography variant='h6'>Transactions</Typography>
+          <Typography
+            variant='h6'
+            sx={{
+              color: themeColors.textPrimary,
+              fontFamily: 'RobotoCondensed-Bold'
+            }}
+          >
+            Transactions
+          </Typography>
           <Box sx={{ marginTop: '16px' }}>
             {transactions.map((transaction, index) => (
-              <Card key={index} sx={{ marginBottom: '8px', padding: '16px' }}>
+              <Card
+                key={index}
+                sx={{
+                  marginBottom: '8px',
+                  padding: '16px',
+                  backgroundColor: themeColors.cardBackground,
+                  color: themeColors.textPrimary,
+                  fontFamily: 'RobotoCondensed-Regular'
+                }}
+              >
                 <Typography variant='body1'>
                   {transaction.description} - ${transaction.amount}
                 </Typography>
-                <Typography variant='body2' color='gray'>
+                <Typography
+                  variant='body2'
+                  sx={{
+                    color: themeColors.textSecondary,
+                    fontFamily: 'RobotoCondensed-Regular'
+                  }}
+                >
                   {new Date(transaction.date).toLocaleDateString()}
                 </Typography>
               </Card>

@@ -12,7 +12,7 @@ import {
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications'
 const NotificationsDropdown = ({ anchorEl, onClose }) => {
   const [notifications, setNotifications] = useState([])
   const [loading, setLoading] = useState(true)
@@ -138,7 +138,7 @@ const NotificationsDropdown = ({ anchorEl, onClose }) => {
 
 const NotificationsButton = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-
+  const darkMode = localStorage.getItem('darkMode') === 'true'
   const handleOpen = event => {
     setAnchorEl(event.currentTarget)
   }
@@ -150,7 +150,9 @@ const NotificationsButton = () => {
   return (
     <Box>
       <IconButton onClick={handleOpen}>
-        <NotificationsIcon />
+        <CircleNotificationsIcon
+          sx={{ color: darkMode ? '#ffffff' : 'black' }}
+        />
       </IconButton>
       <NotificationsDropdown anchorEl={anchorEl} onClose={handleClose} />
     </Box>
