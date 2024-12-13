@@ -19,7 +19,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["name"]
 
     def __str__(self):
-        """Return string representation of our user"""
         return self.email
 
 
@@ -133,3 +132,13 @@ class AccountPreference(models.Model):
 
     def __str__(self):
         return f"Preferences for {self.user.email}"
+
+
+class Purchase(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    stock_symbol = models.CharField(max_length=10, default="GOOGL")
+    quantity = models.PositiveIntegerField()
+    purchase_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} purchased {self.quantity} of {self.stock_symbol}"

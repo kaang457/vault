@@ -21,7 +21,8 @@ import {
   SwapHoriz,
   Payments,
   Logout,
-  Notifications
+  Notifications,
+  TrendingUp
 } from '@mui/icons-material'
 import api from '../api'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
@@ -79,7 +80,8 @@ const Sidebar = ({
         { text: 'Transfers', icon: <SwapHoriz />, path: '/Transfers' },
         { text: 'Payments', icon: <Payments />, path: '/Payments' },
         { text: 'Analytics', icon: <BarChart />, path: '/Analytics' },
-        { text: 'Settings', icon: <Settings />, path: '/Settings' }
+        { text: 'Settings', icon: <Settings />, path: '/Settings' },
+        { text: 'Investments', icon: <TrendingUp />, path: '/investments' }
       ].map((item, index) => (
         <Box
           key={index}

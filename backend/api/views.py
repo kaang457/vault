@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.db.models import Sum
+
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -162,3 +164,85 @@ class AccountPreferenceView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class BuyStockView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        symbol = request.data.get("symbol")
+        quantity = request.data.get("quantity")
+
+        if not symbol or not quantity:
+            return Response(
+                {"error": "Symbol and quantity are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            quantity = int(quantity)
+            if quantity <= 0:
+                raise ValueError("Quantity must be positive.")
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        Purchase.objects.create(user=user, stock_symbol=symbol, quantity=quantity)
+        return Response(
+            {"message": f"Successfully purchased {quantity} of {symbol}."},
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class SellStockView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        symbol = request.data.get("symbol")
+        quantity = request.data.get("quantity")
+
+        if not symbol or not quantity:
+            return Response(
+                {"error": "Symbol and quantity are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            quantity = int(quantity)
+            if quantity <= 0:
+                raise ValueError("Quantity must be positive.")
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        purchase = Purchase.objects.filter(user=user, stock_symbol=symbol).first()
+
+        if not purchase or purchase.quantity < quantity:
+            return Response(
+                {"error": "Not enough shares to sell."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if purchase.quantity == quantity:
+            purchase.delete()
+        else:
+            purchase.quantity -= quantity
+            purchase.save()
+
+        return Response(
+            {"message": f"Successfully sold {quantity} of {symbol}."},
+            status=status.HTTP_200_OK,
+        )
+
+
+class PortfolioView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        portfolio = (
+            Purchase.objects.filter(user=user)
+            .values("stock_symbol")
+            .annotate(total_quantity=Sum("quantity"))
+        )
+        return Response(portfolio, status=status.HTTP_200_OK)

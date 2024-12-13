@@ -22,4 +22,7 @@ urlpatterns = [
         name="accountpreferences",
     ),
     path("transactions/", TransactionView.as_view(), name="transactions"),
+    path("stocks/buy/", BuyStockView.as_view(), name="buystocks"),
+    path("stocks/sell/", SellStockView.as_view(), name="sellstocks"),
+    path("stocks/portfolio/", PortfolioView.as_view(), name="portfolio"),
 ]

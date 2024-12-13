@@ -14,6 +14,9 @@ import CreateAccount from './pages/CreateAccount'
 import Notifications from './components/NotificationsButton'
 
 import TransfersPage from './pages/Transfers'
+import Payments from './pages/Payments'
+import Loans from './pages/Loans'
+import Investments from './pages/Investments'
 function Logout () {
   localStorage.clear()
   return <Navigate to='/landing' />
@@ -64,6 +67,30 @@ function App () {
           element={
             <ProtectedRoute>
               <TransfersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/payments'
+          element={
+            <ProtectedRoute>
+              <Payments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/loans'
+          element={
+            <ProtectedRoute>
+              <Loans />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/investments'
+          element={
+            <ProtectedRoute>
+              <Investments />
             </ProtectedRoute>
           }
         />
