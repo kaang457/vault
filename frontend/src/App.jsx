@@ -11,6 +11,9 @@ import GlobalContainer from './components/GlobalContainer'
 import Detail from './pages/Detail'
 import Accounts from './pages/Accounts'
 import CreateAccount from './pages/CreateAccount'
+import Notifications from './components/NotificationsButton'
+
+import TransfersPage from './pages/Transfers'
 function Logout () {
   localStorage.clear()
   return <Navigate to='/landing' />
@@ -45,6 +48,22 @@ function App () {
           element={
             <ProtectedRoute>
               <Accounts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/notifications'
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/transfers'
+          element={
+            <ProtectedRoute>
+              <TransfersPage />
             </ProtectedRoute>
           }
         />

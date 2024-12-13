@@ -16,4 +16,10 @@ urlpatterns = [
         UserTransactionView.as_view(),
         name="user-transactions",
     ),
+    path(
+        "account-preferences/",
+        AccountPreferenceView.as_view(),
+        name="accountpreferences",
+    ),
+    path("transactions/", TransactionView.as_view(), name="transactions"),
 ]

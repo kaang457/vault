@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
 )
 from api.managers import UserManager
 import uuid
+from django.utils.timezone import now as n
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -41,7 +42,7 @@ class Account(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="accounts")
-    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    balance = models.FloatField(default=0.00)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
     currency = models.CharField(max_length=3, choices=CURRENCIES)
 
@@ -103,3 +104,32 @@ class AccountTransaction(models.Model):
 
     def __str__(self):
         return f"{self.transaction_type} for {self.account} at {self.timestamp}"
+
+
+class Transaction(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    sender = models.ForeignKey(
+        "Account", on_delete=models.CASCADE, related_name="sent_transactions"
+    )
+    receiver = models.ForeignKey(
+        "Account", on_delete=models.CASCADE, related_name="received_transactions"
+    )
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    timestamp = models.DateTimeField(default=n)
+    details = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Transaction of {self.amount} from {self.sender.email} to {self.receiver.email}"
+
+
+class AccountPreference(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    alias = models.CharField(max_length=255, blank=True, null=True)
+    receiver = models.ForeignKey(Account, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("user", "alias", "receiver")
+
+    def __str__(self):
+        return f"Preferences for {self.user.email}"

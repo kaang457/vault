@@ -107,7 +107,6 @@ const Login = () => {
         <Typography variant='body2' sx={{ marginTop: 2, textAlign: 'center' }}>
           Don't have an account?{' '}
           <Link
-            href='#'
             onClick={() => navigate('/register')}
             sx={{ cursor: 'pointer', color: 'blue' }}
           >

@@ -34,3 +34,17 @@ class UserTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTransaction
         fields = "__all__"
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = "__all__"
+        read_only_fields = ["sender"]
+
+
+class AccountPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountPreference
+        fields = "__all__"
+        read_only_fields = ["user"]

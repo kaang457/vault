@@ -116,7 +116,6 @@ const Register = () => {
         <Typography variant='body2' sx={{ marginTop: 2, textAlign: 'center' }}>
           Already have an account?{' '}
           <Link
-            href='#'
             onClick={() => navigate('/login')}
             sx={{ cursor: 'pointer', color: 'blue' }}
           >

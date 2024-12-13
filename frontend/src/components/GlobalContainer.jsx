@@ -19,17 +19,16 @@ import {
   Person,
   Settings,
   SwapHoriz,
-  Notifications,
   Payments,
-  Logout
+  Logout,
+  Notifications
 } from '@mui/icons-material'
-import LoadingScreen from './LoadingScreen'
 import api from '../api'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import logo from '../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import NotificationsButton from './NotificationsButton'
 
 const Sidebar = ({
   darkMode,
@@ -80,12 +79,6 @@ const Sidebar = ({
         { text: 'Transfers', icon: <SwapHoriz />, path: '/Transfers' },
         { text: 'Payments', icon: <Payments />, path: '/Payments' },
         { text: 'Analytics', icon: <BarChart />, path: '/Analytics' },
-        {
-          text: 'Notifications',
-          icon: <Notifications />,
-          path: '/Notifications'
-        },
-        { text: 'Profile', icon: <Person />, path: '/Profile' },
         { text: 'Settings', icon: <Settings />, path: '/Settings' }
       ].map((item, index) => (
         <Box
@@ -164,20 +157,20 @@ const Navbar = ({ darkMode, toggleDrawer }) => {
         <IconButton onClick={toggleDrawer(true)}>
           <MenuIcon sx={{ color: darkMode ? '#f5f5f5' : '#000' }} />
         </IconButton>
-        <Typography variant='h6' noWrap></Typography>
-        <Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <NotificationsButton />
           <IconButton onClick={handleMenuOpen}>
             <Avatar />
           </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => navigate('/Profile')}>Profile</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
         </Box>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={() => navigate('/Profile')}>Profile</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   )
@@ -231,4 +224,5 @@ const GlobalContainer = ({ children }) => {
     </Box>
   )
 }
+
 export default GlobalContainer
