@@ -1,10 +1,11 @@
-import "../styles/Styles.css"
+import "../styles/Styles.css";
 function Landing() {
-    return (
+  return (
     <div className="container">
-    <div className="logo"></div> {/* Logo positioned absolutely within the page */}
+      <div className="logo"></div>{" "}
+      {/* Logo positioned absolutely within the page */}
     </div>
-    )
+  );
 }
 
-export default Landing
+export default Landing;

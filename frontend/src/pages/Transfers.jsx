@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import GlobalContainer from "../components/GlobalContainer";
 
-const TransfersPage = () => {
+const Transfers = () => {
   const theme = useTheme(); // Tema bilgisi
   const [balance, setBalance] = useState(1000);
   const [iban, setIban] = useState("");
@@ -222,4 +222,4 @@ const TransfersPage = () => {
   );
 };
 
-export default TransfersPage;
+export default Transfers;
