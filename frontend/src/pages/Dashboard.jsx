@@ -378,9 +378,7 @@ const Dashboard = () => {
                   fontFamily: 'RobotoCondensed-Regular'
                 }}
               >
-                <Typography variant='body1'>
-                  {transaction.description} - ${transaction.amount}
-                </Typography>
+                <Typography variant='body1'>{transaction.details}</Typography>
                 <Typography
                   variant='body2'
                   sx={{
@@ -388,7 +386,7 @@ const Dashboard = () => {
                     fontFamily: 'RobotoCondensed-Regular'
                   }}
                 >
-                  {new Date(transaction.date).toLocaleDateString()}
+                  {new Date(transaction.timestamp).toLocaleString()}
                 </Typography>
               </Card>
             ))}

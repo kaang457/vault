@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 from api.managers import UserManager
 import uuid
 from django.utils.timezone import now as n
+from django.core.exceptions import ValidationError
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -56,7 +57,8 @@ class Account(models.Model):
 
         is_new = self._state.adding
         super().save(*args, **kwargs)
-
+        if self.balance < 0:
+            raise ValidationError("Not enough balance.")
         if is_new:
 
             UserTransaction.objects.create(

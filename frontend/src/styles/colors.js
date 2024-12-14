@@ -14,7 +14,7 @@ const colors = {
   dark: {
     primary: '#3B82F6',
     secondary: '#F59E0B',
-    background: '#383838',
+    background: '#2f2f2f',
     textPrimary: '#EAEAEA',
     textSecondary: '#A5A5A5',
     cardBackground: '#282828',

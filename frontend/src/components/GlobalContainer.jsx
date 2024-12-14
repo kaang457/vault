@@ -215,11 +215,13 @@ const GlobalContainer = ({ children }) => {
     <Box
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         minHeight: '100vh',
-        paddingLeft: 0,
+        width: '100vw',
         backgroundColor: themeColors.background,
         color: themeColors.textPrimary,
-        flexDirection: 'column'
+        margin: 0,
+        padding: 0
       }}
     >
       <Navbar darkMode={darkMode} toggleDrawer={toggleDrawer} />
@@ -234,9 +236,9 @@ const GlobalContainer = ({ children }) => {
         sx={{
           width: '100%',
           padding: '12px 0',
-          marginTop: 'auto',
-          textAlign: 'center',
-          backgroundColor: themeColors.footerBackground
+          margin: 0, // Ensure no gaps
+          backgroundColor: themeColors.footerBackground,
+          textAlign: 'center'
         }}
       >
         <Typography variant='body2' sx={{ color: themeColors.textSecondary }}>
