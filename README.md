@@ -1,0 +1,1 @@
+Kodun son hali main branchi, "arda" ve "kaan" branchleri geliştirme sırasındaki alakasız branchler. Final branchi ise push tarihi sunum sabahı olan fakat sunumdan hemen önce yaptığımız değişikliği içermeyen branch.
