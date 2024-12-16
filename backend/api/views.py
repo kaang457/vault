@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.db.models import Sum
+from django.http import JsonResponse
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -176,10 +177,9 @@ class BuyStockView(APIView):
         account_id = request.data.get("account_id")
         price = request.data.get("price")
 
-        total_price = quantity * price
-        if not symbol or not quantity:
+        if not symbol or not quantity or not account_id or not price:
             return Response(
-                {"error": "Symbol and quantity are required."},
+                {"error": "Symbol, quantity, account_id, and price are required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -187,12 +187,37 @@ class BuyStockView(APIView):
             quantity = int(quantity)
             if quantity <= 0:
                 raise ValueError("Quantity must be positive.")
+            price = float(price)
+            if price <= 0:
+                raise ValueError("Price must be positive.")
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        account = Account.objects.get(id=account_id)
+        try:
+            account = Account.objects.get(id=account_id, user=user)
+        except Account.DoesNotExist:
+            return Response(
+                {"error": "Account not found or does not belong to the user."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if account.account_type != "INVESTMENT":
+            return Response(
+                {"error": "You need to use your investments account to buy stocks."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        total_price = quantity * price
+
+        if account.balance < total_price:
+            return Response(
+                {"error": "Insufficient balance in the account."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         account.balance -= total_price
         account.save()
+
         purchase, created = Purchase.objects.get_or_create(
             user=user, stock_symbol=symbol
         )
@@ -202,6 +227,7 @@ class BuyStockView(APIView):
             purchase.quantity += quantity
 
         purchase.save()
+
         return Response(
             {"message": f"Successfully purchased {quantity} of {symbol}."},
             status=status.HTTP_201_CREATED,
@@ -217,10 +243,10 @@ class SellStockView(APIView):
         quantity = request.data.get("quantity")
         account_id = request.data.get("account_id")
         price = request.data.get("price")
-        total_price = quantity * price
-        if not symbol or not quantity:
+
+        if not symbol or not quantity or not account_id or not price:
             return Response(
-                {"error": "Symbol and quantity are required."},
+                {"error": "Symbol, quantity, account_id, and price are required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -228,24 +254,50 @@ class SellStockView(APIView):
             quantity = int(quantity)
             if quantity <= 0:
                 raise ValueError("Quantity must be positive.")
+            price = float(price)
+            if price <= 0:
+                raise ValueError("Price must be positive.")
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        account = Account.objects.get(id=account_id)
-        account.balance += total_price
-        account.save()
-        purchase = Purchase.objects.get(user=user, stock_symbol=symbol)
 
-        if not purchase or purchase.quantity < quantity:
+        try:
+            account = Account.objects.get(id=account_id)
+        except Account.DoesNotExist:
             return Response(
-                {"error": "Not enough shares to sell."},
+                {"error": "Account not found or does not belong to the user."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if account.account_type != "INVESTMENT":
+            return Response(
+                {"error": "You need to use your investments account to sell stocks."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if purchase.quantity == quantity:
-            purchase.delete()
-        else:
-            purchase.quantity -= quantity
-            purchase.save()
+        total_price = quantity * price
+
+        try:
+            purchase = Purchase.objects.get(user=user, stock_symbol=symbol)
+            if purchase.quantity < quantity:
+                return Response(
+                    {"error": "Not enough shares to sell."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if purchase.quantity == quantity:
+                purchase.delete()
+            else:
+                purchase.quantity -= quantity
+                purchase.save()
+
+            account.balance += total_price
+            account.save()
+
+        except Purchase.DoesNotExist:
+            return Response(
+                {"error": "You do not own any shares of this stock."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         return Response(
             {"message": f"Successfully sold {quantity} of {symbol}."},
@@ -264,3 +316,107 @@ class PortfolioView(APIView):
             .annotate(total_quantity=Sum("quantity"))
         )
         return Response(portfolio, status=status.HTTP_200_OK)
+
+
+class LoanView(APIView):
+    def get(self, request):
+        account_id = request.query_params.get("account_id")
+        if not account_id:
+            return Response(
+                {"error": "Account ID is required."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            loans = Loan.objects.filter(account_id=account_id)
+            serializer = LoanSerializer(loans, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Account.DoesNotExist:
+            return Response(
+                {"error": "Account not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+    def post(self, request):
+
+        loan_amount = request.data.get("loan_amount")
+        loan_duration = request.data.get("loan_duration")
+        monthly_income = request.data.get("monthly_income")
+        account_id = request.data.get("account_id")
+
+        if not all([loan_amount, loan_duration, monthly_income, account_id]):
+            return Response(
+                {
+                    "error": "Loan amount, loan duration, monthly income, and account ID are required."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            account = Account.objects.get(id=account_id)
+        except Account.DoesNotExist:
+            return Response(
+                {"error": "Account not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if account.credit_score < 600:
+            return Response(
+                {"error": "Credit score is too low for a loan application."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if float(loan_amount) > float(monthly_income) * 10:
+            return Response(
+                {"error": "Loan amount exceeds 10x your monthly income."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        loan = Loan.objects.create(
+            account=account,
+            loan_amount=loan_amount,
+            loan_duration=loan_duration,
+        )
+        serializer = LoanSerializer(loan)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class LoanPaymentView(APIView):
+    def post(self, request):
+
+        loan_id = request.data.get("loan_id")
+        payment_amount = request.data.get("payment_amount")
+
+        if not loan_id or not payment_amount:
+            return Response(
+                {"error": "Loan ID and payment amount are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            loan = Loan.objects.get(id=loan_id)
+        except Loan.DoesNotExist:
+            return Response(
+                {"error": "Loan not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if float(payment_amount) <= 0:
+            return Response(
+                {"error": "Payment amount must be greater than 0."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        remaining_balance = float(loan.loan_amount)
+        if float(payment_amount) > remaining_balance:
+            return Response(
+                {"error": "Payment amount exceeds the remaining loan balance."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        loan.loan_amount = remaining_balance - float(payment_amount)
+        loan.save()
+
+        return Response(
+            {
+                "message": "Payment successful.",
+                "remaining_balance": loan.loan_amount,
+                "loan_id": loan.id,
+            },
+            status=status.HTTP_200_OK,
+        )

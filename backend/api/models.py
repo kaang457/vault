@@ -46,7 +46,7 @@ class Account(models.Model):
     balance = models.FloatField(default=0.00)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
     currency = models.CharField(max_length=3, choices=CURRENCIES)
-
+    credit_score = models.PositiveIntegerField(default=600)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -56,9 +56,10 @@ class Account(models.Model):
     def save(self, *args, **kwargs):
 
         is_new = self._state.adding
-        super().save(*args, **kwargs)
         if self.balance < 0:
             raise ValidationError("Not enough balance.")
+        super().save(*args, **kwargs)
+
         if is_new:
 
             UserTransaction.objects.create(
@@ -145,3 +146,17 @@ class Purchase(models.Model):
 
     def __str__(self):
         return f"{self.user.username} purchased {self.quantity} of {self.stock_symbol}"
+
+
+class Loan(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    account = models.ForeignKey(
+        "Account", on_delete=models.CASCADE, related_name="loans"
+    )
+    loan_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    loan_duration = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Loan of {self.loan_amount} for {self.account} ({self.loan_duration} months)"

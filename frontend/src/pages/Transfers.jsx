@@ -158,7 +158,7 @@ const TransfersPage = () => {
             <InputLabel
               id='account-select-label'
               sx={{
-                color: darkMode ? 'white' : 'black' // Label color for readability
+                color: darkMode ? 'white' : 'black'
               }}
             >
               Select Account
@@ -172,22 +172,22 @@ const TransfersPage = () => {
               label='Select Account'
               sx={{
                 '& .MuiSelect-select': {
-                  color: darkMode ? 'white' : 'black', // Text color for readability
-                  backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Background color for contrast
+                  color: darkMode ? 'white' : 'black',
+                  backgroundColor: darkMode ? '#2c2c2c' : '#fff'
                 },
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
-                    borderColor: currentColors.hoverColor // Default border color
+                    borderColor: currentColors.hoverColor
                   },
                   '&:hover fieldset': {
-                    borderColor: currentColors.primary // Border color on hover
+                    borderColor: currentColors.primary
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: currentColors.primary // Border color when focused
+                    borderColor: currentColors.primary
                   }
                 },
                 '& .MuiInputLabel-root': {
-                  color: darkMode ? 'white' : 'black' // Adjust label color for better visibility
+                  color: darkMode ? 'white' : 'black'
                 }
               }}
             >
@@ -230,22 +230,22 @@ const TransfersPage = () => {
               sx={{
                 marginBottom: '16px',
                 '& .MuiInputBase-input': {
-                  color: darkMode ? 'white' : 'black', // Adjust input text color for visibility
-                  backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Set background color for better readability
+                  color: darkMode ? 'white' : 'black',
+                  backgroundColor: darkMode ? '#2c2c2c' : '#fff'
                 },
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
-                    borderColor: currentColors.hoverColor // Default border color
+                    borderColor: currentColors.hoverColor
                   },
                   '&:hover fieldset': {
-                    borderColor: currentColors.primary // Hover border color
+                    borderColor: currentColors.primary
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: currentColors.primary // Focused border color
+                    borderColor: currentColors.primary
                   }
                 },
                 '& .MuiInputLabel-root': {
-                  color: darkMode ? 'white' : 'black' // Adjust label color for visibility
+                  color: darkMode ? 'white' : 'black'
                 }
               }}
               value={formData.receiver}
@@ -296,7 +296,7 @@ const TransfersPage = () => {
               sx={{
                 marginBottom: '16px',
                 '& .MuiInputBase-input': {
-                  color: darkMode ? 'white' : 'black', // Adjust input text color
+                  color: darkMode ? 'white' : 'black',
                   backgroundColor: darkMode ? '#2c2c2c' : '#fff' // Adjust background color for better readability
                 },
                 '& .MuiOutlinedInput-root': {

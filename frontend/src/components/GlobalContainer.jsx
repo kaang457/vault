@@ -22,7 +22,8 @@ import {
   Payments,
   Logout,
   Notifications,
-  TrendingUp
+  TrendingUp,
+  MonetizationOnRounded
 } from '@mui/icons-material'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications'
 import api from '../api'
@@ -80,7 +81,7 @@ const Sidebar = ({
         />
       </Box>
       {[
-        { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
+        { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
         { text: 'Accounts', icon: <AccountBalanceWallet />, path: '/accounts' },
         { text: 'Transfers', icon: <SwapHoriz />, path: '/Transfers' },
         { text: 'Payments', icon: <Payments />, path: '/Payments' },

@@ -48,3 +48,17 @@ class AccountPreferenceSerializer(serializers.ModelSerializer):
         model = AccountPreference
         fields = "__all__"
         read_only_fields = ["user"]
+
+
+class LoanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Loan
+        fields = [
+            "id",
+            "account",
+            "loan_amount",
+            "loan_duration",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at"]

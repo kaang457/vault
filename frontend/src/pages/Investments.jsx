@@ -122,9 +122,16 @@ const Investments = () => {
       })
       .catch(err => {
         console.error('Error buying stock:', err)
+
+        const errorMessage =
+          err.response?.data?.error ||
+          err.response?.data?.message ||
+          err.message ||
+          'An unexpected error occurred.'
+
         setSnackbar({
           open: true,
-          message: 'Failed to buy stock. Please try again later.',
+          message: `Failed to buy stock, ${errorMessage}`,
           severity: 'error'
         })
       })
@@ -208,17 +215,59 @@ const Investments = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Symbol</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Price</TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: darkMode ? 'black' : 'inherit',
+                    color: darkMode ? 'white' : 'inherit'
+                  }}
+                >
+                  Symbol
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: darkMode ? 'black' : 'inherit',
+                    color: darkMode ? 'white' : 'inherit'
+                  }}
+                >
+                  Name
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: darkMode ? 'black' : 'inherit',
+                    color: darkMode ? 'white' : 'inherit'
+                  }}
+                >
+                  Price
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {mockStocks.map((stock, index) => (
                 <TableRow key={index}>
-                  <TableCell>{stock.symbol}</TableCell>
-                  <TableCell>{stock.name}</TableCell>
-                  <TableCell>${stock.price.toFixed(2)}</TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: darkMode ? 'black' : 'inherit',
+                      color: darkMode ? 'white' : 'inherit'
+                    }}
+                  >
+                    {stock.symbol}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: darkMode ? 'black' : 'inherit',
+                      color: darkMode ? 'white' : 'inherit'
+                    }}
+                  >
+                    {stock.name}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: darkMode ? 'black' : 'inherit',
+                      color: darkMode ? 'white' : 'inherit'
+                    }}
+                  >
+                    ${stock.price.toFixed(2)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

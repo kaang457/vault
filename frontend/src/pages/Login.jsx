@@ -20,7 +20,7 @@ const Login = () => {
 
       localStorage.setItem(ACCESS_TOKEN, res.data.access)
       localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
-      navigate('/')
+      navigate('/dashboard')
     } catch (error) {
       alert(error)
     } finally {

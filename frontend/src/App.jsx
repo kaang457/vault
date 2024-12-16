@@ -17,6 +17,7 @@ import TransfersPage from './pages/Transfers'
 import Payments from './pages/Payments'
 import Loans from './pages/Loans'
 import Investments from './pages/Investments'
+
 function Logout () {
   localStorage.clear()
   return <Navigate to='/landing' />
@@ -31,7 +32,7 @@ function App () {
     <BrowserRouter>
       <Routes>
         <Route
-          path='/'
+          path='/dashboard'
           element={
             <ProtectedRoute>
               <Dashboard />
@@ -94,10 +95,18 @@ function App () {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/loans'
+          element={
+            <ProtectedRoute>
+              <Loans />
+            </ProtectedRoute>
+          }
+        />
         <Route path='/login' element={<Login />} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/register' element={<RegisterAndLogout />} />
-        <Route path='/landing' element={<Landing />} />
+        <Route path='/' element={<Landing />} />
         <Route path='*' element={<NotFound />} />
         <Route path='/detail' element={<Detail />} />
       </Routes>
